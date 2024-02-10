@@ -1,0 +1,21 @@
+.fs-14 {
+  font-size: 14px;
+}
+.img__style {
+  height: 100px;
+  width: 100px;
+  background-color: #c1f1c6;
+}
+.custom__style {
+  transform: scale(0.7);
+}
+.fs_custom {
+  font-size: 14px !important;
+}
+.hover__style {
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.hover__style:hover {
+  transform: translateY(-15px);
+}

@@ -48,6 +48,7 @@
   font-size: 12px;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .navbar-toggler {
   font-size: 12px !important;

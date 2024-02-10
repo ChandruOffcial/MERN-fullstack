@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './navbar.css'
 import Logo from '/logo.png'
 import { FiPhoneCall } from "react-icons/fi";
@@ -7,6 +7,21 @@ import { FiSearch } from "react-icons/fi";
 
 function Navbar() {
     const [activeDropdown, setActiveDropdown] = useState(null);
+    const [isSticky, setSticky] = useState(false)
+    useEffect((() => {
+        const handleScroll = () => {
+            const offset = window.scrollY;
+            if (offset > 0) {
+                setSticky(true)
+            } else {
+                setSticky(false)
+            }
+        }
+        window.addEventListener('scroll', handleScroll)
+        return () => {
+            window.addEventListener('scroll', handleScroll)
+        }
+    }), [])
 
     const toggleDropdown = (dropdown) => {
         setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
@@ -57,13 +72,21 @@ function Navbar() {
     </>
     return (
         <header>
-            <nav className="navbar navbar-expand-md bg-body-tertiary sticky-top">
-                <div className="container-lg">
+            <nav className={`navbar navbar-expand-md bg-body-tertiary sticky-top position-fixed top-0 start-0 end-0 ${isSticky ? "bg-white shadow" : ""}`}>
+                <div className="container-lg ">
                     <a className="navbar-brand" href="#"><img src={Logo} alt="logo" /></a>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <button className="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarTogglerDemo02"
+                        aria-controls="navbarTogglerDemo02"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <div
+                        className="collapse navbar-collapse"
+                        id="navbarTogglerDemo02">
                         <ul className="navbar-nav mx-auto mb-lg-0">
                             {navItem}
                         </ul>
