@@ -12,3 +12,35 @@
     width: 75% !important;
   }
 }
+.next__prev__style {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  justify-content: end;
+  top: 45px;
+  right: 35px;
+}
+@media (min-width: 989px) {
+  .next__prev__style {
+    top: 45px;
+    right: 35px;
+  }
+}
+@media (max-width: 768px) {
+  .next__prev__style {
+    top: 91px;
+  }
+}
+.btn__nextandPrev {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(178, 183, 187);
+  border: none;
+  outline: none;
+}
+.green {
+  background-color: var(--green);
+}

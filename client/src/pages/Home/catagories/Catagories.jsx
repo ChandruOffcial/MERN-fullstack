@@ -9,7 +9,7 @@ export const Catagories = () => {
     ]
     return (
         <>
-            <div className='container mt-4 mb-5 pb-4'>
+            <div className='container-md mt-4 mb-5 pb-4'>
                 <div className='text-center mb-5'>
                     <p className=' text-danger  fs-14 fw-semibold text-uppercase'>Customer Favorites</p>
                     <h2 className=' fw-bold fs-lg-2 fs-sm-4'>Popular Catagories</h2>
