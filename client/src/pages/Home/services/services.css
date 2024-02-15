@@ -1,0 +1,21 @@
+.btn__style {
+  background-color: var(--green);
+  transition: all 0.3s ease-in-out;
+}
+.btn__style:hover {
+  background-color: rgb(123, 127, 129);
+}
+._custom_style {
+  cursor: pointer;
+  color: var(--green) !important;
+  border: 1px solid #fff;
+  transition: all 0.3s ease-in-out;
+}
+._custom_style:hover {
+  border: 1px solid rgb(192, 192, 19);
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .w_100 {
+    width: 100% !important;
+  }
+}

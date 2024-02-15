@@ -97,12 +97,15 @@ const SpecialDishes = () => {
                     <button onClick={() => slider?.current?.slickPrev()} className=' btn__nextandPrev  rounded-circle'><IoIosArrowBack /></button>
                     <button onClick={() => slider?.current?.slickNext()} className=' btn__nextandPrev rounded-circle green'><IoIosArrowForward /></button>
                 </div>
-                <Slider ref={slider} {...settings} className=' overflow-hidden  gap-2'>
+                <Slider ref={slider} {...settings} className=' overflow-hidden'>
                     {recipes.map((item, index) => (
+
                         <Card
                             key={index}
                             item={item}
                         />
+
+
                     ))}
                 </Slider>
 

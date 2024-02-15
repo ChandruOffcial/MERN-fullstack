@@ -35,7 +35,7 @@ function Navbar() {
         <li className="nav-item dropdown me-3">
             <a
                 className={`nav-link dropdown-toggle ${activeDropdown === 'menu' ? 'rotate' : ''}`}
-                href="#"
+                href="/menu"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded={activeDropdown === 'menu'}
@@ -44,7 +44,7 @@ function Navbar() {
                 Menu
             </a>
             <ul className={`dropdown-menu ${activeDropdown === 'menu' ? 'show' : ''}`}>
-                <li><a className="dropdown-item" href="#">All</a></li>
+                <li><a className="dropdown-item" href="/menu">All</a></li>
                 <li><a className="dropdown-item" href="#">Salad</a></li>
                 <li><a className="dropdown-item" href="#">Pizza</a></li>
             </ul>

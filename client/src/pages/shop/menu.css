@@ -1,0 +1,7 @@
+.style__active {
+  color: var(--green);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+
+  transition: all 0.2s;
+}

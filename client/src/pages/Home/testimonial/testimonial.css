@@ -18,3 +18,9 @@
     width: 75% !important;
   }
 }
+.star__style {
+  color: rgb(252, 215, 7);
+}
+.fs-16 {
+  font-size: 16px;
+}
