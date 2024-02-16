@@ -5,3 +5,16 @@
 
   transition: all 0.2s;
 }
+.custom__btn {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  outline: none;
+}
+.activing {
+  background-color: var(--green);
+  color: #fff;
+}

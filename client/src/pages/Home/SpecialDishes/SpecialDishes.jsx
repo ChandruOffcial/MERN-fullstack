@@ -46,7 +46,6 @@ const SpecialDishes = () => {
         fetch('/menu.json').then(res => res.json()).then(data => {
             const specialDish = data.filter((item) => (item.category === 'popular'))
             setRecipes(specialDish)
-            console.log(specialDish)
 
         }).catch((err) => console.log(err))
     }, [])

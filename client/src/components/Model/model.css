@@ -1,0 +1,25 @@
+.submit__btn {
+  background-color: var(--green) !important;
+}
+.submit__btn:hover {
+  background-color: var(--green);
+  border: var(--green);
+}
+.forgot__pass {
+  cursor: pointer;
+}
+.forgot__pass:hover {
+  color: var(--green);
+  text-decoration: underline;
+  transition: all 0.2s;
+}
+.link_btn {
+  height: 40px;
+  width: 40px;
+  border: 1px solid var(--green) !important;
+  transition: all 0.2s;
+}
+.link_btn:hover {
+  background-color: var(--green) !important;
+  color: #fff !important;
+}

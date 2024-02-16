@@ -1,5 +1,6 @@
 import Banner from "../../components/Banner/Banner"
 import SpecialDishes from "./SpecialDishes/SpecialDishes"
+
 import { Catagories } from "./catagories/Catagories"
 import Services from "./services/Services"
 import Testimonial from "./testimonial/Testimonial"
@@ -14,6 +15,7 @@ const Home = () => {
             <SpecialDishes />
             <Testimonial />
             <Services />
+
         </div>
     )
 }

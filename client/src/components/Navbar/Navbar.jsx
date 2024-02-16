@@ -1,11 +1,19 @@
 import { useEffect, useState } from 'react';
 import './navbar.css'
 import Logo from '/logo.png'
-import { FiPhoneCall } from "react-icons/fi";
 import { IoIosCart } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
+import Model from '../Model/Model';
+
 
 function Navbar() {
+
+
+
+    const handleForm = (e) => {
+        e.preventDefault()
+    }
+
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [isSticky, setSticky] = useState(false)
     useEffect((() => {
@@ -90,14 +98,15 @@ function Navbar() {
                         <ul className="navbar-nav mx-auto mb-lg-0">
                             {navItem}
                         </ul>
-                        <form className="d-flex align-items-center gap-3" role="search">
+                        <form className="d-flex align-items-center gap-3" role="search" onSubmit={handleForm}>
                             <FiSearch className='custom__icon' />
                             <div className="shopping-cart">
                                 <IoIosCart className='custom__icon icon__cart' />
                                 <span className="cart-value">5</span>
                             </div>
-                            <button className="btn btn-outline-success d-flex align-items-center gap-3" type="submit"><FiPhoneCall />Contact</button>
+                            <Model />
                         </form>
+
                     </div>
                 </div>
             </nav>

@@ -4,11 +4,14 @@ import { useState } from "react"
 import './menu.css'
 import { FaFilter } from "react-icons/fa";
 
+
 const Menu = () => {
     const [menu, setMenu] = useState([])
     const [filterItem, setFilterItem] = useState([])
     const [selectedCatagory, setSelectedCatagory] = useState('all')
     const [sortOption, setSortOption] = useState('default')
+    const [currentPage, setCurrentPage] = useState(1)
+    const [itemPerPage] = useState(8)
 
     //loadiing Data
     useEffect(() => {
@@ -32,6 +35,7 @@ const Menu = () => {
         const filterItem = category === "all" ? menu : menu.filter((item) => item.category === category);
         setFilterItem(filterItem)
         setSelectedCatagory(category)
+        setCurrentPage(1)
 
     }
 
@@ -39,7 +43,7 @@ const Menu = () => {
     const showAll = () => {
         setFilterItem(menu)
         setSelectedCatagory("all")
-
+        setCurrentPage(1)
     }
 
     //sorting 
@@ -67,8 +71,15 @@ const Menu = () => {
         }
 
         setFilterItem(sortedItem)
+        setCurrentPage(1)
     }
 
+    //Paginate
+
+    const indexOfLastItem = currentPage * itemPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemPerPage;
+    const currentItem = filterItem.slice(indexOfFirstItem, indexOfLastItem);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <>
@@ -125,12 +136,26 @@ const Menu = () => {
                     {/* Production Card Section */}
 
                     <div className="row row-gap-4">
-                        {filterItem.map((item) => (
+                        {currentItem.map((item) => (
                             <div key={item._id} className=" col-lg-4 col-md-6 col-sm-12">
                                 <Card item={item} />
                             </div>
                         ))}
                     </div>
+                    {/* Pagination */}
+
+                    <div className=" d-flex justify-content-center align-items-center gap-1">
+                        {
+                            Array.from({ length: Math.ceil(filterItem.length / itemPerPage) }).map((_, index) => (
+                                <button key={index + 1} className={`mt-4 rounded-circle custom__btn ${currentPage === index + 1 ? "activing" : ""}`} onClick={() => paginate(index + 1)}>
+                                    {index + 1}
+                                </button>
+
+                            ))
+                        }
+                    </div>
+
+
                 </div>
             </section >
         </>

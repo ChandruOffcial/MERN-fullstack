@@ -12,7 +12,7 @@ const Card = ({ item }) => {
 
     const handleHeart = () => {
         setItsFillHeart(!itsFillHeart)
-        console.log(setItsFillHeart)
+
     }
     return (
         <>
