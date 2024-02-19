@@ -1,4 +1,4 @@
-const { hashedPassword } = require("../helper/helper");
+const { hashedPassword, comparePassword } = require("../helper/helper");
 const User = require("../models/authModel");
 
 const test = (req, res) => {
@@ -15,7 +15,7 @@ const resgisterUser = async (req, res) => {
         error: "All Fields Are Not Filled",
       });
     } else {
-      const hasdpassword = hashedPassword(password);
+      const hasdpassword = await hashedPassword(password);
 
       const user = new User({
         name,
@@ -39,7 +39,32 @@ const resgisterUser = async (req, res) => {
   }
 };
 
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+      });
+    }
+    const match = await comparePassword(password, user.password);
+    if (!match) {
+      return res.status(401).json({
+        error: "Incorrect password",
+      });
+    } else {
+      return res.json({
+        message: "User Login Successful",
+      });
+    }
+  } catch (error) {
+    console.error("Error in loginUser:", error);
+  }
+};
+
 module.exports = {
   test,
   resgisterUser,
+  loginUser,
 };

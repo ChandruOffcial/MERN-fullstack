@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { json } = require("express");
 
 const hashedPassword = (password) => {
   return new Promise((resolve, rejected) => {
@@ -16,6 +17,11 @@ const hashedPassword = (password) => {
   });
 };
 
+const comparePassword = (password, hashedPassword) => {
+  return bcrypt.compare(password, hashedPassword);
+};
+
 module.exports = {
   hashedPassword,
+  comparePassword,
 };

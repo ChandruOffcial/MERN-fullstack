@@ -7,6 +7,10 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import './model.css'
 import { Link } from 'react-router-dom';
+import { toast } from "react-hot-toast"
+import axios from "axios"
+
+
 
 function Example() {
     const [validated, setValidated] = useState(false);
@@ -15,21 +19,35 @@ function Example() {
         password: ""
     })
 
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
+        event.preventDefault()
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         }
-
         setValidated(true);
-        if (validated) {
-            console.log(data)
-        } else {
-            console.log('Fill all ')
+
+        const { email, password } = data
+        const inputElement = document.getElementById('validationCustom02');
+        if (inputElement.checkValidity()) {
+            try {
+                const { data } = await axios.post('/login', {
+                    email, password
+                });
+                if (data.error) {
+                    toast.error(data.error)
+                } else {
+                    toast.success(data.success)
+
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
         }
     };
+
 
     const [show, setShow] = useState(false);
 
@@ -53,20 +71,18 @@ function Example() {
                                     className='p-md-3 fs-6'
                                     required
                                     type="email"
-                                    placeholder="First name"
+                                    placeholder="Email"
                                     value={data.email}
                                     onChange={(e) => { setData({ ...data, email: e.target.value }) }}
                                 />
-
                             </Form.Group>
-
                             <Form.Group as={Col} md="12" controlId="validationCustom02" className='mb-md-4 '>
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
                                     className='p-md-3  pb-2 fs-6'
                                     required
                                     type="Password"
-                                    placeholder="Last name"
+                                    placeholder="Password"
                                     value={data.password}
                                     onChange={(e) => { setData({ ...data, password: e.target.value }) }}
                                 />
