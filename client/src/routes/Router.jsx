@@ -7,6 +7,7 @@ import Signup from "../components/Signup/Signup";
 
 
 
+
 const router = createBrowserRouter([
 
     {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
     {
         path: "/signup",
         element: <Signup />
-    }
+    },
 ]);
 
 export default router

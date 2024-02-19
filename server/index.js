@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 // Middle ware
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Routes

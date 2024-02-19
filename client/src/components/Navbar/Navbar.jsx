@@ -6,6 +6,7 @@ import { FiSearch } from "react-icons/fi";
 import Model from '../Model/Model';
 
 
+
 function Navbar() {
 
 

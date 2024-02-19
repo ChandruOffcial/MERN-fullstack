@@ -10,9 +10,13 @@ import { Link } from 'react-router-dom';
 import { toast } from "react-hot-toast"
 import axios from "axios"
 
+import { useNavigate } from "react-router-dom";
+
 
 
 function Example() {
+
+    const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
     const [data, setData] = useState({
         email: "",
@@ -28,9 +32,9 @@ function Example() {
         }
         setValidated(true);
 
-        const { email, password } = data
         const inputElement = document.getElementById('validationCustom02');
         if (inputElement.checkValidity()) {
+            const { email, password } = data
             try {
                 const { data } = await axios.post('/login', {
                     email, password
@@ -39,6 +43,15 @@ function Example() {
                     toast.error(data.error)
                 } else {
                     toast.success(data.success)
+                    setData({
+                        email, password
+                    })
+                    navigate("/")
+                    setData({
+                        email: "",
+                        password: ""
+                    })
+                    handleClose()
 
                 }
 

@@ -1,5 +1,7 @@
 const { hashedPassword, comparePassword } = require("../helper/helper");
 const User = require("../models/authModel");
+const jwt = require("jsonwebtoken");
+const cookie = require("cookie-parser");
 
 const test = (req, res) => {
   res.json({
@@ -44,22 +46,34 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({
+      return res.json({
         error: "User not found",
       });
     }
     const match = await comparePassword(password, user.password);
     if (!match) {
-      return res.status(401).json({
+      return res.json({
         error: "Incorrect password",
       });
     } else {
-      return res.json({
-        message: "User Login Successful",
-      });
+      jwt.sign(
+        { name: user.name, email: user.email, id: user._id },
+        process.env.SECRET__KEY,
+        (err, token) => {
+          if (err) {
+            throw err;
+          }
+          res.cookie("token", token);
+          res.json({
+            success: "User Login Successful",
+            user: user,
+          });
+        }
+      );
     }
   } catch (error) {
     console.error("Error in loginUser:", error);
+    res.json({ error: "Internal Server Error" });
   }
 };
 
