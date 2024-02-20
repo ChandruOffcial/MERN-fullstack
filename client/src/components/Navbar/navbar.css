@@ -57,3 +57,12 @@
 .nav-link {
   font-weight: 700 !important;
 }
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+  justify-content: flex-start !important;
+}
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root:hover {
+  background-color: rgba(
+    var(--bs-tertiary-bg-rgb),
+    var(--bs-bg-opacity)
+  ) !important;
+}

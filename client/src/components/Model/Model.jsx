@@ -6,25 +6,34 @@ import { FaFacebook, FaGithub, FaGoogle, FaUser } from "react-icons/fa";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import './model.css'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { toast } from "react-hot-toast"
 import axios from "axios"
-
 import { useNavigate } from "react-router-dom";
-
+import { useContext } from "react"
+import { UserContext } from "../../../context/UserContext.jsx"
 
 
 function Example() {
 
-    const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
     const [data, setData] = useState({
         email: "",
         password: ""
-    })
+    });
+
+    useContext(UserContext);
+
+
+
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    const from = location.state?.from?.pathname || '/';
+
 
     const handleSubmit = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
@@ -34,7 +43,7 @@ function Example() {
 
         const inputElement = document.getElementById('validationCustom02');
         if (inputElement.checkValidity()) {
-            const { email, password } = data
+            const { email, password } = data;
             try {
                 const { data } = await axios.post('/login', {
                     email, password
@@ -43,15 +52,9 @@ function Example() {
                     toast.error(data.error)
                 } else {
                     toast.success(data.success)
-                    setData({
-                        email, password
-                    })
-                    navigate("/")
-                    setData({
-                        email: "",
-                        password: ""
-                    })
+
                     handleClose()
+                    navigate(from, { replace: true })
 
                 }
 
@@ -60,7 +63,6 @@ function Example() {
             }
         }
     };
-
 
     const [show, setShow] = useState(false);
 

@@ -1,26 +1,25 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-const PORT = process.env.PORT || 3000;
+const cors = require("cors");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 
-// Middle ware
-
-app.use(express.urlencoded({ extended: false }));
+// Midelware
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-// Routes
-app.use("/", require("./Routes/authRoutes"));
-
-// DATA BASE
 mongoose
-  .connect(process.env.DATA_BASE)
+  .connect(process.env.DB)
   .then(() => {
-    console.log("Data Base is connected");
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
+    console.log("db is connected");
+    app.listen(PORT, () => console.log(`Server is Online ${PORT}`));
   })
   .catch((err) => {
-    console.error("Data base Connection Error", err);
+    console.log(err);
   });
+
+const PORT = 8000;
+
+app.use("/", require("./routes/authRoute"));

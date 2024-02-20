@@ -1,84 +1,108 @@
-const { hashedPassword, comparePassword } = require("../helper/helper");
-const User = require("../models/authModel");
+const User = require("../models/user");
+const { hashPassword, comparePassword } = require("../helper/auth");
 const jwt = require("jsonwebtoken");
-const cookie = require("cookie-parser");
+// const cookie = require("cookie-parser");
 
 const test = (req, res) => {
   res.json({
-    message: "router worked",
+    message: "Welcome",
   });
 };
 
-const resgisterUser = async (req, res) => {
+const userRegister = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    if (!name || !email || !password) {
+    // user name
+    if (!name) {
       return res.json({
-        error: "All Fields Are Not Filled",
-      });
-    } else {
-      const hasdpassword = await hashedPassword(password);
-
-      const user = new User({
-        name,
-        email,
-        password: hasdpassword,
-      });
-
-      const savedUser = await user.save();
-
-      return res.status(200).json({
-        success: "User registered successfully",
-        user: savedUser,
+        error: "enter the name",
       });
     }
-  } catch (error) {
-    // Handle error if any
-    console.error("Error registering user:", error);
-    return res.status(500).json({
-      error: "Internal Server Error",
+
+    // password
+
+    if (!password) {
+      return res.json({
+        error: "enter the password",
+      });
+    }
+
+    //Email
+
+    const exist = await User.findOne({ email });
+    if (exist) {
+      return res.json({
+        error: "User already exist",
+      });
+    }
+
+    const hasedPassword = await hashPassword(password);
+
+    const user = await User.create({
+      name,
+      email,
+      password: hasedPassword,
     });
+
+    return res.json({ success: "Register Done!", user });
+  } catch (error) {
+    console.log(error);
   }
 };
 
-const loginUser = async (req, res) => {
+const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
+    if (!password || !email) {
       return res.json({
-        error: "User not found",
-      });
-    }
-    const match = await comparePassword(password, user.password);
-    if (!match) {
-      return res.json({
-        error: "Incorrect password",
+        error: "Fill the feild",
       });
     } else {
-      jwt.sign(
-        { name: user.name, email: user.email, id: user._id },
-        process.env.SECRET__KEY,
-        (err, token) => {
-          if (err) {
-            throw err;
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return res.json({
+          error: "No user Found",
+        });
+      }
+
+      const match = await comparePassword(password, user.password);
+      if (match) {
+        jwt.sign(
+          { email: user.email, name: user.name, id: user._id },
+          process.env.JWT_SECRET,
+          {},
+          (err, token) => {
+            if (err) {
+              throw err;
+            }
+            res.cookie("token", token).json({ success: "Login Success", user });
           }
-          res.cookie("token", token);
-          res.json({
-            success: "User Login Successful",
-            user: user,
-          });
-        }
-      );
+        );
+      }
+      if (!match) {
+        return res.json({
+          error: "password do not match",
+        });
+      }
     }
   } catch (error) {
-    console.error("Error in loginUser:", error);
-    res.json({ error: "Internal Server Error" });
+    console.log(error);
+  }
+};
+const userProfile = (req, res) => {
+  const { token } = req.cookies;
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
+      if (err) {
+        throw err;
+      }
+      res.json(user);
+    });
+  } else {
+    res.json(null);
   }
 };
 
-module.exports = {
-  test,
-  resgisterUser,
-  loginUser,
-};
+module.exports = { test, userRegister, userLogin, userProfile };

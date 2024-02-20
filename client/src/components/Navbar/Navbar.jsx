@@ -4,19 +4,35 @@ import Logo from '/logo.png'
 import { IoIosCart } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
 import Model from '../Model/Model';
+import { useContext } from "react"
+import { UserContext } from "../../../context/UserContext.jsx"
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+
 
 
 
 function Navbar() {
 
 
-
+    const { user } = useContext(UserContext)
     const handleForm = (e) => {
         e.preventDefault()
     }
 
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [isSticky, setSticky] = useState(false)
+
     useEffect((() => {
         const handleScroll = () => {
             const offset = window.scrollY;
@@ -79,6 +95,49 @@ function Navbar() {
             <a className="nav-link" href="#">Offers</a>
         </li>
     </>
+    const [state, setState] = useState({ right: false });
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+
+        setState({ ...state, [anchor]: open });
+    };
+    const items = [
+        { text: 'Inbox', icon: <InboxIcon />, route: '/inbox' },
+        { text: 'Starred', icon: <MailIcon />, route: '/starred' },
+        { text: 'Send email', icon: <InboxIcon />, route: '/send-email' },
+        { text: 'Drafts', icon: <MailIcon />, route: '/drafts' }
+    ];
+
+    const list = (anchor) => (
+
+
+
+        <Box
+            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+            role="presentation"
+            onClick={toggleDrawer(anchor, false)}
+            onKeyDown={toggleDrawer(anchor, false)}
+        >
+            <List>
+                {items.map((item, index) => (
+                    <ListItem key={index} disablePadding>
+                        <ListItemButton component={Link} to={item.route}>
+                            <ListItemIcon>
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.text} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+        </Box>
+    );
+
+
+
+
     return (
         <header>
             <nav className={`navbar navbar-expand-md bg-body-tertiary sticky-top position-fixed top-0 start-0 end-0 ${isSticky ? "bg-white shadow" : ""}`}>
@@ -105,12 +164,29 @@ function Navbar() {
                                 <IoIosCart className='custom__icon icon__cart' />
                                 <span className="cart-value">5</span>
                             </div>
-                            <Model />
+                            {
+                                !user ? <Model /> : <React.Fragment key={"right"}>
+                                    <Button className="d-flex align-items-center gap-3" onClick={toggleDrawer("right", true)}>
+
+                                        <img src="/images/home/testimonials/testimonial3.png" alt="" className='w-50' />
+                                    </Button>
+                                    <Drawer
+                                        anchor={"right"}
+                                        open={state["right"]}
+                                        onClose={toggleDrawer("right", false)}
+                                    >
+                                        {list("right")}
+                                    </Drawer>
+                                </React.Fragment>
+
+                            }
+
                         </form>
 
                     </div>
                 </div>
             </nav>
+
         </header>
     )
 }
