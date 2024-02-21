@@ -90,6 +90,7 @@ const userLogin = async (req, res) => {
     console.log(error);
   }
 };
+
 const userProfile = (req, res) => {
   const { token } = req.cookies;
 
@@ -105,4 +106,18 @@ const userProfile = (req, res) => {
   }
 };
 
-module.exports = { test, userRegister, userLogin, userProfile };
+const userLogout = (req, res) => {
+  const cookies = req.cookies;
+  if (cookies) {
+    for (let cookieName in cookies) {
+      res.clearCookie(cookieName);
+    }
+    res.json({
+      success: "Logout Success",
+    });
+  } else {
+    res.json({ error: "No cookies found" });
+  }
+};
+
+module.exports = { test, userRegister, userLogin, userProfile, userLogout };

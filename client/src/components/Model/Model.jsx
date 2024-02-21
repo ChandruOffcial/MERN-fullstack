@@ -56,6 +56,7 @@ function Example() {
                     handleClose()
                     navigate(from, { replace: true })
 
+
                 }
 
             } catch (error) {

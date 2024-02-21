@@ -7,7 +7,6 @@ import Model from '../Model/Model';
 import { useContext } from "react"
 import { UserContext } from "../../../context/UserContext.jsx"
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -18,12 +17,12 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import axios from 'axios';
 
 
 
 
 function Navbar() {
-
 
     const { user } = useContext(UserContext)
     const handleForm = (e) => {
@@ -107,7 +106,7 @@ function Navbar() {
         { text: 'Inbox', icon: <InboxIcon />, route: '/inbox' },
         { text: 'Starred', icon: <MailIcon />, route: '/starred' },
         { text: 'Send email', icon: <InboxIcon />, route: '/send-email' },
-        { text: 'Drafts', icon: <MailIcon />, route: '/drafts' }
+        { text: 'Logout', icon: <MailIcon /> }
     ];
 
     const list = (anchor) => (
@@ -123,7 +122,9 @@ function Navbar() {
             <List>
                 {items.map((item, index) => (
                     <ListItem key={index} disablePadding>
-                        <ListItemButton component={Link} to={item.route}>
+                        <ListItemButton
+                            onClick={() => handleItemClick(item)} // Add onClick event handler
+                        >
                             <ListItemIcon>
                                 {item.icon}
                             </ListItemIcon>
@@ -132,8 +133,28 @@ function Navbar() {
                     </ListItem>
                 ))}
             </List>
+
         </Box>
     );
+
+    const handleItemClick = async (value) => {
+
+
+        if (value.text === "Logout") {
+            await axios.get('/logout')
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload(true);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else {
+            console.log("No value");
+        }
+
+    }
 
 
 

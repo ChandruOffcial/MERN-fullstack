@@ -6,6 +6,7 @@ const {
   userRegister,
   userLogin,
   userProfile,
+  userLogout,
 } = require("../controller/authController");
 
 router.use(
@@ -19,5 +20,6 @@ router.get("/", test);
 router.post("/register", userRegister);
 router.post("/login", userLogin);
 router.get("/profile", userProfile);
+router.get("/logout", userLogout);
 
 module.exports = router;
