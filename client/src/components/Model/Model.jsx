@@ -51,12 +51,12 @@ function Example() {
                 if (data.error) {
                     toast.error(data.error)
                 } else {
-                    toast.success(data.success)
-
                     handleClose()
                     navigate(from, { replace: true })
-
-
+                    toast.success(data.success)
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000);
                 }
 
             } catch (error) {

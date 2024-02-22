@@ -1,13 +1,9 @@
 const User = require("../models/user");
 const { hashPassword, comparePassword } = require("../helper/auth");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const fs = require("fs");
 // const cookie = require("cookie-parser");
-
-const test = (req, res) => {
-  res.json({
-    message: "Welcome",
-  });
-};
 
 const userRegister = async (req, res) => {
   try {
@@ -110,14 +106,28 @@ const userLogout = (req, res) => {
   const cookies = req.cookies;
   if (cookies) {
     for (let cookieName in cookies) {
-      res.clearCookie(cookieName);
+      res.clearCookie(cookieName).json({
+        success: "Logout Success",
+      });
     }
-    res.json({
-      success: "Logout Success",
-    });
   } else {
     res.json({ error: "No cookies found" });
   }
 };
 
-module.exports = { test, userRegister, userLogin, userProfile, userLogout };
+const imageUpload = async (req, res) => {
+  const id = req.cookies.id;
+  console.log(id);
+  const user = await User.findById({ id });
+
+  console.log(req.file, req.body);
+  res.redirect("/upload");
+  res.json({ data: "success" });
+};
+module.exports = {
+  userRegister,
+  userLogin,
+  userProfile,
+  userLogout,
+  imageUpload,
+};

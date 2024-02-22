@@ -4,7 +4,7 @@ import Footer from "../components/Footer/Footer"
 import { useContext } from "react"
 import { UserContext } from "../../context/UserContext.jsx"
 
-import CircularIndeterminate from "../components/Loader/Loder.jsx"
+
 
 
 const Main = () => {
@@ -13,7 +13,7 @@ const Main = () => {
     return (
         <div>
             {
-                loading ? <CircularIndeterminate /> : <><Navbar />
+                loading ? "Loading" : <><Navbar />
                     <div style={{ minHeight: '100vh' }}>
 
                         <Outlet />

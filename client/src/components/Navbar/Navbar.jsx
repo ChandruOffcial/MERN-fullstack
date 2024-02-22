@@ -18,13 +18,17 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import axios from 'axios';
+import { FaUser } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+
 
 
 
 
 function Navbar() {
+    const navigate = useNavigate()
 
-    const { user } = useContext(UserContext)
+    const { user, setLoading } = useContext(UserContext)
     const handleForm = (e) => {
         e.preventDefault()
     }
@@ -103,7 +107,7 @@ function Navbar() {
         setState({ ...state, [anchor]: open });
     };
     const items = [
-        { text: 'Inbox', icon: <InboxIcon />, route: '/inbox' },
+        { text: 'Profile', icon: <FaUser /> },
         { text: 'Starred', icon: <MailIcon />, route: '/starred' },
         { text: 'Send email', icon: <InboxIcon />, route: '/send-email' },
         { text: 'Logout', icon: <MailIcon /> }
@@ -140,12 +144,13 @@ function Navbar() {
     const handleItemClick = async (value) => {
 
 
+        // Logout
         if (value.text === "Logout") {
             await axios.get('/logout')
-                .then(data => {
-                    if (data.success) {
-                        window.location.reload(true);
-                    }
+                .then(() => {
+                    setLoading(true)
+                    window.location.reload()
+                    setLoading(false)
                 })
                 .catch(error => {
                     console.log(error);
@@ -154,6 +159,21 @@ function Navbar() {
             console.log("No value");
         }
 
+        //Profile
+        if (value.text === "Profile") {
+            navigate("/profile")
+            // await axios.get('/logout')
+            //     .then(() => {
+            //         setLoading(true)
+            //         window.location.reload()
+            //         setLoading(false)
+            //     })
+            //     .catch(error => {
+            //         console.log(error);
+            //     });
+        } else {
+            console.log("No value");
+        }
     }
 
 
