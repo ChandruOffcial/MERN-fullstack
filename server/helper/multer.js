@@ -1,7 +1,12 @@
 const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
-const uploadDirectory = path.join(__dirname, "../", "public", "profiles");
+const uploadDirectory = path.join(
+  __dirname,
+  "../../client/",
+  "src",
+  "profiles"
+);
 
 if (!fs.existsSync(uploadDirectory)) {
   fs.mkdirSync(uploadDirectory, { recursive: true });
@@ -12,8 +17,8 @@ const storage = multer.diskStorage({
     cb(null, uploadDirectory);
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix);
+    const uniqueSuffix = Date.now();
+    cb(null, uniqueSuffix + file.originalname);
   },
 });
 

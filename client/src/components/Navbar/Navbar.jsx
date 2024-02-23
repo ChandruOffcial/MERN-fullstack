@@ -25,10 +25,39 @@ import { useNavigate } from 'react-router-dom';
 
 
 
+
+
 function Navbar() {
     const navigate = useNavigate()
-
     const { user, setLoading } = useContext(UserContext)
+    const [userProfile, setUserProfile] = useState()
+
+
+    if (user) {
+        const getProfileImage = async () => {
+            try {
+                await axios.get(`/profile-image/${user.id}`
+                ).then((response) => {
+                    if (response.data == null) {
+                        const defaultImage = "./src/profiles/testimonial1.png"
+                        setUserProfile(defaultImage)
+                    } else {
+                        const imageData = response.data.file;
+                        const file = `./src/profiles/${imageData}`
+                        setUserProfile(file)
+                    }
+                }).catch((e) => {
+                    console.log(e)
+                });
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        getProfileImage()
+    }
+
     const handleForm = (e) => {
         e.preventDefault()
     }
@@ -162,15 +191,7 @@ function Navbar() {
         //Profile
         if (value.text === "Profile") {
             navigate("/profile")
-            // await axios.get('/logout')
-            //     .then(() => {
-            //         setLoading(true)
-            //         window.location.reload()
-            //         setLoading(false)
-            //     })
-            //     .catch(error => {
-            //         console.log(error);
-            //     });
+
         } else {
             console.log("No value");
         }
@@ -209,7 +230,7 @@ function Navbar() {
                                 !user ? <Model /> : <React.Fragment key={"right"}>
                                     <Button className="d-flex align-items-center gap-3" onClick={toggleDrawer("right", true)}>
 
-                                        <img src="/images/home/testimonials/testimonial3.png" alt="" className='w-50' />
+                                        <img src={user ? userProfile : "./src/profiles/testimonial1.png"} alt="" className='w-100' style={{ height: "50px", borderRadius: "50%" }} />
                                     </Button>
                                     <Drawer
                                         anchor={"right"}

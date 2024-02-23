@@ -3,14 +3,7 @@ const router = express.Router();
 const cors = require("cors");
 const multer = require("multer");
 
-const {
-  userRegister,
-  userLogin,
-  userProfile,
-  userLogout,
-  imageUpload,
-} = require("../controller/authController");
-const { storage } = require("../helper/multer");
+// Middelware
 router.use(
   cors({
     credentials: true,
@@ -18,6 +11,26 @@ router.use(
   })
 );
 
+// User Controller
+const {
+  userRegister,
+  userLogin,
+  userProfile,
+  userLogout,
+} = require("../controller/authController");
+
+// Image Controller
+const {
+  imageUpload,
+  getProfileImage,
+  profileUpdate,
+} = require("../controller/profileController");
+
+//Menu
+
+const { getAllMenu, insertmenu } = require("../controller/menuController");
+
+const { storage } = require("../helper/multer");
 const upload = multer({
   storage: storage,
   limits: {
@@ -25,10 +38,18 @@ const upload = multer({
   },
 });
 
+// User authentication
 router.post("/register", userRegister);
 router.post("/login", userLogin);
 router.get("/profile", userProfile);
 router.get("/logout", userLogout);
+
+// Profile Upload
 router.post("/upload", upload.single("file"), imageUpload);
+router.patch("/update", upload.single("file"), profileUpdate);
+router.get("/profile-image/:userId", getProfileImage);
+
+// All Menu
+router.get("/menu", getAllMenu);
 
 module.exports = router;

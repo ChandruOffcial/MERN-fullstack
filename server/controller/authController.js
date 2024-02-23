@@ -1,8 +1,8 @@
+//Model
 const User = require("../models/user");
 const { hashPassword, comparePassword } = require("../helper/auth");
 const jwt = require("jsonwebtoken");
-const multer = require("multer");
-const fs = require("fs");
+
 // const cookie = require("cookie-parser");
 
 const userRegister = async (req, res) => {
@@ -115,19 +115,9 @@ const userLogout = (req, res) => {
   }
 };
 
-const imageUpload = async (req, res) => {
-  const id = req.cookies.id;
-  console.log(id);
-  const user = await User.findById({ id });
-
-  console.log(req.file, req.body);
-  res.redirect("/upload");
-  res.json({ data: "success" });
-};
 module.exports = {
   userRegister,
   userLogin,
   userProfile,
   userLogout,
-  imageUpload,
 };
