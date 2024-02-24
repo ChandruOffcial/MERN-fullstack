@@ -28,7 +28,7 @@ const {
 
 //Menu
 
-const { getAllMenu, insertmenu } = require("../controller/menuController");
+const { getAllMenu, addMenu } = require("../controller/menuController");
 
 const { storage } = require("../helper/multer");
 const upload = multer({
@@ -51,5 +51,6 @@ router.get("/profile-image/:userId", getProfileImage);
 
 // All Menu
 router.get("/menu", getAllMenu);
+router.post("/menu", addMenu);
 
 module.exports = router;

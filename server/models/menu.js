@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const menuSchema = new mongoose.Schema({
+const menuSchema = new Schema({
   name: String,
   recipe: String,
   image: String,
@@ -8,6 +9,6 @@ const menuSchema = new mongoose.Schema({
   price: Number,
 });
 
-const Menu = mongoose.model("menu", menuSchema);
+const Menu = mongoose.model("menus", menuSchema);
 
 module.exports = Menu;
